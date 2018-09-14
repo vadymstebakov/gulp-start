@@ -82,7 +82,7 @@ gulp.task('clean', function() {
 
 
 gulp.task('clear', function() {
-    return caceh.clearAll();
+    return cache.clearAll();
 });
 
 
