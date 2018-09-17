@@ -15,7 +15,6 @@ var gulp = require('gulp'),
     htmlhint = require('gulp-htmlhint'),
     debug = require('gulp-debug');
 
-
 gulp.task('scss', function() {
     return gulp.src('app/scss/**/*.scss')
         .pipe(plumber({
@@ -39,14 +38,12 @@ gulp.task('scss', function() {
         }));
 });
 
-
 gulp.task('scripts', function() {
     return gulp.src('app/libs/...') /*настрой под свои скрипты*/
         .pipe(concat('libs.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('app/js'));
 });
-
 
 gulp.task('css-libs', ['scss'], function() {
     return gulp.src('app/css/libs.css')
@@ -57,13 +54,11 @@ gulp.task('css-libs', ['scss'], function() {
         .pipe(gulp.dest('app/css'));
 });
 
-
 gulp.task('htmlhint', function() {
     return gulp.src('app/*.html')
         .pipe(debug())
         .pipe(htmlhint())
 });
-
 
 gulp.task('browser-sync', function() {
     browserSync({
@@ -75,16 +70,13 @@ gulp.task('browser-sync', function() {
     });
 });
 
-
 gulp.task('clean', function() {
     return del.sync('dist');
 });
 
-
 gulp.task('clear', function() {
     return cache.clearAll();
 });
-
 
 gulp.task('imagemin', function() {
     return gulp.src('app/img/**/*')
@@ -99,13 +91,11 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest('dist/img'));
 });
 
-
 gulp.task('watch', ['browser-sync', 'css-libs', 'scripts'], function() {
     gulp.watch('app/scss/**/*.scss', ['scss']);
     gulp.watch('app/*html', browserSync.reload);
     gulp.watch('app/js/*js', browserSync.reload);
 });
-
 
 gulp.task('build', ['clean', 'imagemin', 'scss', 'scripts'], function() {
     var buildCss = gulp.src([
