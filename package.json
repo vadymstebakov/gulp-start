@@ -1,7 +1,7 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "project",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,7 +24,6 @@
     "gulp-sass": "^4.0.1",
     "gulp-uglifyjs": "^0.6.2",
 	"imagemin-pngquant": "^5.1.0",
-	"gulp-wait": "0.0.2",
-	"imagemin-jpeg-recompress": "^5.1.0"
+	"gulp-wait": "0.0.2"
   }
 }
