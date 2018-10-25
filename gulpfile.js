@@ -9,9 +9,6 @@ const uglify = require('gulp-uglifyjs');
 const cssnano = require('gulp-cssnano');
 const rename = require('gulp-rename');
 const del = require('del');
-const imagemin = require('gulp-imagemin');
-const pngquant = require('imagemin-pngquant');
-const cache = require('gulp-cache');
 const autoprefixer = require('gulp-autoprefixer');
 const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
@@ -71,7 +68,11 @@ gulp.task('scss', function() {
             '> 1%', 'ie 8', 'ie 7'
         ], {
             cascade: true
-        }))
+		}))
+		// .pipe(cssnano())
+        // .pipe(rename({
+        //     suffix: '.min'
+        // }))
         .pipe(gulp.dest(path.dist.css))
         .pipe(browserSync.reload({
             stream: true
@@ -92,6 +93,8 @@ gulp.task('csslibs', function() {
 // JS
 gulp.task('js', function () {
 	return gulp.src(path.app.js)
+		// .pipe(concat('libs.min.js'))
+        // .pipe(uglify())
         .pipe(gulp.dest(path.dist.js))
         .pipe(browserSync.reload({
             stream: true
@@ -111,22 +114,14 @@ gulp.task('clean', function() {
     return del.sync('dist');
 });
 
-// Clear cache
+// Clear dir img
 gulp.task('clear', function() {
-    return cache.clearAll();
+    return del.sync(path.dist.img);
 });
 
-// Img min
+// Img
 gulp.task('img', function () {
 	return gulp.src(path.app.img)
-        .pipe(cache(imagemin({
-            progressive: true,
-            svgoPlugins: [{
-				removeViewBox: false
-			}],
-            use: [pngquant()],
-            interlaced: true
-        })))
         .pipe(gulp.dest(path.dist.img))
         .pipe(browserSync.reload({
             stream: true
@@ -167,7 +162,8 @@ gulp.task('watch', function(){
     gulp.watch([path.watch.html], ['html']);
     gulp.watch([path.watch.scss], ['scss']);
     gulp.watch([path.watch.js], ['js']);
-    gulp.watch([path.watch.img], ['img']);
+	gulp.watch([path.watch.img], ['clear']);
+	gulp.watch([path.watch.img], ['img']);
 });
 
 // Start
