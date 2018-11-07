@@ -1,3 +1,5 @@
+/* global Swiper */
+
 'use strict';
 
 $(document).ready(function() {

@@ -114,11 +114,6 @@ gulp.task('clean', function() {
     return del.sync('dist');
 });
 
-// Clear dir img
-gulp.task('clear', function() {
-    return del.sync(path.dist.img);
-});
-
 // Img
 gulp.task('img', function () {
 	return gulp.src(path.app.img)
@@ -162,7 +157,6 @@ gulp.task('watch', function(){
     gulp.watch([path.watch.html], ['html']);
     gulp.watch([path.watch.scss], ['scss']);
     gulp.watch([path.watch.js], ['js']);
-	gulp.watch([path.watch.img], ['clear']);
 	gulp.watch([path.watch.img], ['img']);
 });
 
