@@ -4,14 +4,15 @@
 
 $(document).ready(function() {
 	// Resize function
-	function onResize() {
-		console.log('e');
-	}
-	var doit;
-	doit = setTimeout(onResize, 400);
-	window.onresize = function() {
-		clearTimeout(doit);
-		doit = setTimeout(onResize, 400);
+	let doit; 
+	function resized(){ 
+		console.log('resize');
+	} 
+	window.onresize = function() { 
+		clearTimeout(doit); 
+		doit = setTimeout(function() { 
+			resized(); 
+		}, 100); 
 	};
-
+	
 });

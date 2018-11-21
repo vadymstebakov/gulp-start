@@ -12,6 +12,7 @@ const del = require('del');
 const autoprefixer = require('gulp-autoprefixer');
 const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
+const babel = require('gulp-babel');
 const debug = require('gulp-debug');
 
 // Path
@@ -93,6 +94,9 @@ gulp.task('csslibs', function() {
 // JS
 gulp.task('js', function () {
 	return gulp.src(path.src.js)
+		.pipe(babel({
+			presets: ['env']
+		}))
 		// .pipe(concat('libs.min.js'))
 		// .pipe(uglify())
 		.pipe(gulp.dest(path.dist.js))
