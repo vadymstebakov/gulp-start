@@ -23,27 +23,27 @@ const path = {
 		img: 'dist/img/',
 		fonts: 'dist/fonts/'
 	},
-	app: {
-		html: 'app/*.html',
-		scss: 'app/scss/**/*.scss',
-		cssLibs: 'app/libs-css/**/*.css',
-		js: 'app/js/**/*.js',
-		jsLibs: 'app/libs-js/**/*.js',
-		img: 'app/img/**/*',
-		fonts: 'app/fonts/**/*'
+	src: {
+		html: 'src/*.html',
+		scss: 'src/scss/**/*.scss',
+		cssLibs: 'src/libs-css/**/*.css',
+		js: 'src/js/**/*.js',
+		jsLibs: 'src/libs-js/**/*.js',
+		img: 'src/img/**/*',
+		fonts: 'src/fonts/**/*'
 	},
 	watch: {
-		html: 'app/**/*.html',
-		scss: 'app/scss/**/*.scss',
-		js: 'app/js/**/*.js',
-		img: 'app/img/**/*',
-		fonts: 'app/fonts/**/*'
+		html: 'src/**/*.html',
+		scss: 'src/scss/**/*.scss',
+		js: 'src/js/**/*.js',
+		img: 'src/img/**/*',
+		fonts: 'src/fonts/**/*'
 	}
 };
 
 // HTML
 gulp.task('html', function () {
-	return gulp.src(path.app.html)
+	return gulp.src(path.src.html)
 		.pipe(gulp.dest(path.dist.html))
 		.pipe(browserSync.reload({
 			stream: true
@@ -52,7 +52,7 @@ gulp.task('html', function () {
 
 // SCSS to CSS
 gulp.task('scss', function() {
-	return gulp.src(path.app.scss)
+	return gulp.src(path.src.scss)
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
@@ -81,7 +81,7 @@ gulp.task('scss', function() {
 
 // CSSlibs to dist
 gulp.task('csslibs', function() {
-	return gulp.src(path.app.cssLibs)
+	return gulp.src(path.src.cssLibs)
 		.pipe(concat('libs.css'))
 		.pipe(cssnano())
 		.pipe(rename({
@@ -92,7 +92,7 @@ gulp.task('csslibs', function() {
 
 // JS
 gulp.task('js', function () {
-	return gulp.src(path.app.js)
+	return gulp.src(path.src.js)
 		// .pipe(concat('libs.min.js'))
 		// .pipe(uglify())
 		.pipe(gulp.dest(path.dist.js))
@@ -103,7 +103,7 @@ gulp.task('js', function () {
 
 // JSlibs to dist
 gulp.task('jslibs', function() {
-	return gulp.src(path.app.jsLibs)
+	return gulp.src(path.src.jsLibs)
 		.pipe(concat('libs.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(path.dist.js));
@@ -116,7 +116,7 @@ gulp.task('clean', function() {
 
 // Img
 gulp.task('img', function () {
-	return gulp.src(path.app.img)
+	return gulp.src(path.src.img)
 		.pipe(gulp.dest(path.dist.img))
 		.pipe(browserSync.reload({
 			stream: true
@@ -125,7 +125,7 @@ gulp.task('img', function () {
 
 // Fonts
 gulp.task('fonts', function() {
-	gulp.src(path.app.fonts)
+	gulp.src(path.src.fonts)
 		.pipe(gulp.dest(path.dist.fonts));
 });
 
