@@ -45,6 +45,14 @@ const path = {
 // HTML
 gulp.task('html', function () {
 	return gulp.src(path.src.html)
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'HTML',
+					message: err.message
+				};
+			})
+		}))
 		.pipe(gulp.dest(path.dist.html))
 		.pipe(browserSync.reload({
 			stream: true
@@ -83,6 +91,14 @@ gulp.task('scss', function() {
 // CSSlibs to dist
 gulp.task('csslibs', function() {
 	return gulp.src(path.src.cssLibs)
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'CSS libs',
+					message: err.message
+				};
+			})
+		}))
 		.pipe(concat('libs.css'))
 		.pipe(cssnano())
 		.pipe(rename({
@@ -94,6 +110,14 @@ gulp.task('csslibs', function() {
 // JS
 gulp.task('js', function () {
 	return gulp.src(path.src.js)
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'JS',
+					message: err.message
+				};
+			})
+		}))
 		.pipe(babel({
 			presets: ['env']
 		}))
@@ -108,6 +132,14 @@ gulp.task('js', function () {
 // JSlibs to dist
 gulp.task('jslibs', function() {
 	return gulp.src(path.src.jsLibs)
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'JS libs',
+					message: err.message
+				};
+			})
+		}))
 		.pipe(concat('libs.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(path.dist.js));
