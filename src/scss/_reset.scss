@@ -51,15 +51,24 @@ body {
     box-sizing: border-box;
 }
 
+:after,
+:before {
+	content: "";
+}
+
 img {
-    max-width: 100%;
+	max-width: 100%;
+}
+
+a {
+	color: inherit;
+	cursor: pointer;
 }
 
 a,
 a:hover,
 a:focus {
     text-decoration: none;
-    cursor: pointer;
 }
 
 input, select, textarea {
@@ -70,7 +79,7 @@ input, select, textarea {
 }
 
 textarea {
-    resize: none;
+    resize: vertical;
     overflow: auto;
 }
 
@@ -97,32 +106,18 @@ button::-moz-focus-inner,
 	font: inherit;
 }
 
-.flex {
-    display: flex;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-.justify-sb {
-    justify-content: space-between;
+input[type=number] {
+	-moz-appearance: textfield;
 }
 
-.justify-sa {
-    justify-content: space-around;
-}
-
-.justify-c {
-    justify-content: center;
-}
-
-.justify-fe {
-    justify-content: flex-end;
-}
-
-.align-c {
-    align-items: center;
-}
-
-.align-fe {
-    align-items: flex-end;
+select::-ms-expand {
+    display: none;
 }
 
 .container {

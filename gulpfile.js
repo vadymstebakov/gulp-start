@@ -13,6 +13,9 @@ const autoprefixer = require('gulp-autoprefixer');
 const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
 const babel = require('gulp-babel');
+const sourcemaps = require('gulp-sourcemaps');
+const gulpIf = require('gulp-if');
+const argv = require('yargs').argv;
 const debug = require('gulp-debug');
 
 // Path
@@ -48,7 +51,7 @@ gulp.task('html', function () {
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
-					title: 'HTML',
+					title: 'html',
 					message: err.message
 				};
 			})
@@ -62,15 +65,17 @@ gulp.task('html', function () {
 // SCSS to CSS
 gulp.task('scss', function() {
 	return gulp.src(path.src.scss)
+		.pipe(wait(500))
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
-					title: 'Style',
+					title: 'scss',
 					message: err.message
 				};
 			})
 		}))
-		.pipe(wait(500))
+		.pipe(gulpIf(argv.dev, sourcemaps.init()))
+		.pipe(debug({title: 'DEBUG scss'}))
 		.pipe(sass())
 		.pipe(autoprefixer([
 			'last 15 versions',
@@ -82,6 +87,7 @@ gulp.task('scss', function() {
 		// .pipe(rename({
 		//     suffix: '.min'
 		// }))
+		.pipe(gulpIf(argv.dev, sourcemaps.write()))
 		.pipe(gulp.dest(path.dist.css))
 		.pipe(browserSync.reload({
 			stream: true
@@ -89,16 +95,17 @@ gulp.task('scss', function() {
 });
 
 // CSSlibs to dist
-gulp.task('csslibs', function() {
+gulp.task('css-libs', function() {
 	return gulp.src(path.src.cssLibs)
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
-					title: 'CSS libs',
+					title: 'css-libs',
 					message: err.message
 				};
 			})
 		}))
+		.pipe(debug({title: 'DEBUG css-libs'}))
 		.pipe(concat('libs.css'))
 		.pipe(cssnano())
 		.pipe(rename({
@@ -113,16 +120,19 @@ gulp.task('js', function () {
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
-					title: 'JS',
+					title: 'js',
 					message: err.message
 				};
 			})
 		}))
+		.pipe(gulpIf(argv.dev, sourcemaps.init()))
+		.pipe(debug({title: 'DEBUG js'}))
 		.pipe(babel({
 			presets: ['env']
 		}))
 		// .pipe(concat('libs.min.js'))
 		// .pipe(uglify())
+		.pipe(gulpIf(argv.dev, sourcemaps.write()))
 		.pipe(gulp.dest(path.dist.js))
 		.pipe(browserSync.reload({
 			stream: true
@@ -130,16 +140,17 @@ gulp.task('js', function () {
 });
 
 // JSlibs to dist
-gulp.task('jslibs', function() {
+gulp.task('js-libs', function() {
 	return gulp.src(path.src.jsLibs)
 		.pipe(plumber({
 			errorHandler: notify.onError(function(err) {
 				return {
-					title: 'JS libs',
+					title: 'js-libs',
 					message: err.message
 				};
 			})
 		}))
+		.pipe(debug({title: 'DEBUG js-libs'}))
 		.pipe(concat('libs.min.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(path.dist.js));
@@ -170,9 +181,9 @@ gulp.task('build', [
 	'clean',
 	'html',
 	'scss',
-	'csslibs',
+	'css-libs',
 	'js',
-	'jslibs',
+	'js-libs',
 	'img',
 	'fonts'
 ]);
@@ -198,3 +209,6 @@ gulp.task('watch', function(){
 
 // Start
 gulp.task('default', ['build', 'browser-sync', 'watch']);
+
+// gulp --dev (с sourcemaps)
+// gulp (без sourcemaps)
