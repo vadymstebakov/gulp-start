@@ -48,14 +48,6 @@ const path = {
 // HTML
 gulp.task('html', function () {
 	return gulp.src(path.src.html)
-		.pipe(plumber({
-			errorHandler: notify.onError(function(err) {
-				return {
-					title: 'html',
-					message: err.message
-				};
-			})
-		}))
 		.pipe(gulp.dest(path.dist.html))
 		.pipe(browserSync.reload({
 			stream: true
@@ -77,12 +69,7 @@ gulp.task('scss', function() {
 		.pipe(gulpIf(argv.dev, sourcemaps.init()))
 		.pipe(debug({title: 'DEBUG scss'}))
 		.pipe(sass())
-		.pipe(autoprefixer([
-			'last 15 versions',
-			'> 1%', 'ie 8', 'ie 7'
-		], {
-			cascade: true
-		}))
+		.pipe(autoprefixer(['last 15 versions']))
 		// .pipe(cssnano())
 		// .pipe(rename({
 		//     suffix: '.min'
@@ -128,7 +115,7 @@ gulp.task('js', function () {
 		.pipe(gulpIf(argv.dev, sourcemaps.init()))
 		.pipe(debug({title: 'DEBUG js'}))
 		.pipe(babel({
-			presets: ['env']
+			presets: ['@babel/env']
 		}))
 		// .pipe(concat('libs.min.js'))
 		// .pipe(uglify())

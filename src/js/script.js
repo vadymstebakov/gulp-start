@@ -7,7 +7,7 @@ $(document).ready(function() {
 	function onResize() {
 		console.log('e');
 	}
-	var doit;
+	let doit;
 	doit = setTimeout(onResize, 400);
 	window.onresize = function() {
 		clearTimeout(doit);
