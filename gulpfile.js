@@ -68,7 +68,7 @@ gulp.task('scss', function() {
 		}))
 		.pipe(gulpIf(argv.dev, sourcemaps.init()))
 		.pipe(debug({title: 'DEBUG scss'}))
-		.pipe(sass())
+		.pipe(sass({outputStyle: 'expanded'}))
 		.pipe(autoprefixer(['last 15 versions']))
 		// .pipe(cssnano())
 		// .pipe(rename({
