@@ -1,9 +1,10 @@
-@import "_var.scss";
-@import "_fonts.scss";
-@import "_reset.scss";
+@import "var";
+@import "mixins";
+@import "fonts";
+@import "reset";
 
 /* Style -------------------------------------------------------------------- */
 
 
 /* Media -------------------------------------------------------------------- */
-@import "_media.scss";
+@import "media";

@@ -69,7 +69,10 @@ gulp.task('scss', function() {
 		.pipe(gulpIf(argv.dev, sourcemaps.init()))
 		.pipe(debug({title: 'DEBUG scss'}))
 		.pipe(sass({outputStyle: 'expanded'}))
-		.pipe(autoprefixer(['last 15 versions']))
+		.pipe(autoprefixer({
+			browsers: ['> 0.1%'],
+			cascade: false
+		}))
 		// .pipe(cssnano())
 		// .pipe(rename({
 		//     suffix: '.min'
