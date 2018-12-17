@@ -115,14 +115,13 @@ gulp.task('js', function () {
 				};
 			})
 		}))
-		.pipe(gulpIf(argv.dev, sourcemaps.init()))
 		.pipe(debug({title: 'DEBUG js'}))
 		.pipe(babel({
-			presets: ['@babel/env']
+			presets: ['@babel/env'],
+			retainLines: true
 		}))
 		// .pipe(concat('libs.min.js'))
 		// .pipe(uglify())
-		.pipe(gulpIf(argv.dev, sourcemaps.write()))
 		.pipe(gulp.dest(path.dist.js))
 		.pipe(browserSync.reload({
 			stream: true
@@ -198,7 +197,7 @@ gulp.task('watch', function(){
 });
 
 // Start
-gulp.task('default', ['build', 'browser-sync', 'watch']);
+gulp.task('default', ['build', 'watch', 'browser-sync']);
 
 // gulp --dev (с sourcemaps)
 // gulp (без sourcemaps)
