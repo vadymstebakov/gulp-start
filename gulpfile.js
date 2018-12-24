@@ -17,6 +17,10 @@ const sourcemaps = require('gulp-sourcemaps');
 const gulpIf = require('gulp-if');
 const argv = require('yargs').argv;
 const debug = require('gulp-debug');
+const svgSprite = require('gulp-svg-sprites');
+const svgmin = require('gulp-svgmin');
+const cheerio = require('gulp-cheerio');
+const replace = require('gulp-replace');
 
 // Path
 const path = {
@@ -25,16 +29,18 @@ const path = {
 		css: 'dist/css/',
 		js: 'dist/js/',
 		img: 'dist/img/',
-		fonts: 'dist/fonts/'
+		fonts: 'dist/fonts/',
+		svg: 'src/img/svg/'
 	},
 	src: {
-		html: 'src/*.html',
+		html: 'src/*.{html,access}',
 		scss: 'src/scss/**/*.scss',
 		cssLibs: 'src/libs-css/**/*.css',
 		js: 'src/js/**/*.js',
 		jsLibs: 'src/libs-js/**/*.js',
 		img: 'src/img/**/*',
-		fonts: 'src/fonts/**/*'
+		fonts: 'src/fonts/**/*',
+		svg: 'src/img/svg/**/*.svg'
 	},
 	watch: {
 		html: 'src/**/*.html',
@@ -44,6 +50,36 @@ const path = {
 		fonts: 'src/fonts/**/*'
 	}
 };
+
+// SVG
+gulp.task('svg-sprite', function() {
+	return gulp.src(path.src.svg)
+		.pipe(svgmin({
+			js2svg: {
+				pretty: true
+			}
+		}))
+		.pipe(cheerio({
+			run: function($) {
+				$('[fill]').removeAttr('fill');
+				$('[stroke]').removeAttr('stroke');
+				$('[style]').removeAttr('style');
+			},
+			parserOptions: {
+				xmlMode: true
+			}
+		}))
+		.pipe(replace('&gt;', '>'))
+		.pipe(svgSprite({
+			mode: 'symbols',
+			preview: false,
+			selector: 'icon-%f',
+			svg: {
+				symbols: 'symbol_sprite.html'
+			}
+		}))
+		.pipe(gulp.dest(path.dist.svg));
+});
 
 // HTML
 gulp.task('html', function () {
